@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    tasks: [
+      {
+        title: "Eat a banana",
+        details: "Find a banana. Eat it."
+      },
+      {
+        title: "Tell The Monkey to get off his monkey butt and do something.",
+        details: ""
+      }
+    ]
+  };
+  render() {
+    let tasks_list = this.state.tasks.map(task => (
+      <p>
+        {task.title} - {task.details}
+      </p>
+    ));
+    return <div className="App">{tasks_list}</div>;
+  }
 }
 
 export default App;
