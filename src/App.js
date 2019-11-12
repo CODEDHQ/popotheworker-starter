@@ -1,27 +1,41 @@
 import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
+import TodayList from "./Components/TodayList";
+import CreateTaskForm from "./Components/CreateTaskForm";
+import moment from "moment";
+import FutureList from "./Components/FutureList";
+import tasksStore from "./Stores/TasksStore";
+import { MDBContainer } from "mdbreact";
 
 class App extends Component {
   state = {
-    tasks: [
+    todayTasks: [
       {
         title: "Eat a banana",
-        details: "Find a banana. Eat it."
+        details: "Find a banana. Eat it.",
+        due: moment()
       },
       {
         title: "Tell The Monkey to get off his monkey butt and do something.",
-        details: ""
+        details: "",
+        due: moment()
       }
-    ]
+    ],
+    futureTasks: []
   };
+  componentDidMount() {
+    tasksStore.retrieveFromLocalStorage();
+  }
+
   render() {
-    let tasks_list = this.state.tasks.map(task => (
-      <p>
-        {task.title} - {task.details}
-      </p>
-    ));
-    return <div className="App">{tasks_list}</div>;
+    return (
+      <MDBContainer>
+        <CreateTaskForm />
+        <TodayList />
+        <FutureList />
+      </MDBContainer>
+    );
   }
 }
 
