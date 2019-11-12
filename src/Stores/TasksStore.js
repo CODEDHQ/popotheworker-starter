@@ -2,16 +2,19 @@ import { decorate, observable } from "mobx";
 import moment from "moment";
 
 class TasksStore {
+  idCounter = 3;
   todayTasks = [
     {
       title: "Eat a banana",
       details: "Find a banana. Eat it.",
-      due: moment()
+      due: moment(),
+      id: 1
     },
     {
       title: "Tell The Monkey to get off his monkey butt and do something.",
       details: "",
-      due: moment()
+      due: moment(),
+      id: 2
     }
   ];
   futureTasks = [];
@@ -19,7 +22,8 @@ class TasksStore {
     // This next line will stringify the tasks list
     let tasks = JSON.stringify({
       todayTasks: this.todayTasks,
-      futureTasks: this.futureTasks
+      futureTasks: this.futureTasks,
+      idCounter: this.idCounter
     });
     localStorage.setItem("tasks", tasks);
   };
@@ -35,10 +39,17 @@ class TasksStore {
       });
       this.todayTasks = tasks.todayTasks;
       this.futureTasks = tasks.futureTasks;
+      this.idCounter = tasks.idCounter;
     }
   };
   addTask = (title, details, due) => {
-    let newTask = { title: title, details: details, due: due };
+    let newTask = {
+      title: title,
+      details: details,
+      due: due,
+      id: this.idCounter
+    };
+    this.idCounter++;
     if (due && due.isAfter(moment(), "day")) {
       let tasks = this.futureTasks;
       tasks.push(newTask);
@@ -48,6 +59,14 @@ class TasksStore {
       tasks.push(newTask);
       this.todayTasks = tasks;
     }
+    this.updateLocalStorage();
+  };
+  deleteTask = taskId => {
+    // Remove task from today and future tasks.
+    this.todayTasks = this.todayTasks.filter(item => item.id !== taskId);
+    this.futureTasks = this.futureTasks.filter(item => item.id !== taskId);
+
+    // Update local storage.
     this.updateLocalStorage();
   };
 }
