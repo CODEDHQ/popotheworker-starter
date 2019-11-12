@@ -24,6 +24,9 @@ class Task extends Component {
   toggleDeleteModal = () => {
     this.setState({ modal: !this.state.modal });
   };
+  checkTask = () => {
+    tasksStore.checkTask(this.props.task.id);
+  };
   render() {
     let dueDate;
     if (this.props.task.due)
@@ -65,6 +68,14 @@ class Task extends Component {
         <div className="d-flex justify-content-between">
           <div className="d-flex align-items-start flex-column">
             <div className="d-flex justify-content-start">
+              <div className="align-self-center">
+                <MDBIcon
+                  far
+                  icon="square"
+                  size="2x"
+                  onClick={this.checkTask.bind(this)}
+                />
+              </div>
               <div className="flex-grow-1 p-3 text-wrap">
                 <h5 className="mb-1">{this.props.task.title}</h5>
               </div>
@@ -73,7 +84,7 @@ class Task extends Component {
           <div>
             <MDBCloseIcon
               className="ml-auto"
-              onClick={this.toggleDeleteModal}
+              onClick={this.toggleDeleteModal.bind(this)}
             />
           </div>
         </div>

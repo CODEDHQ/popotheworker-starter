@@ -22,7 +22,7 @@ class CreateTaskForm extends Component {
   addTask = () => {
     if (this.state.title) {
       tasksStore.addTask(this.state.title, this.state.details, this.state.due);
-      this.setState({ taskText: "", taskDetails: "", due: "" });
+      this.setState({ title: "", details: "", due: "" });
       this.toggleModal();
     }
   };
@@ -30,7 +30,7 @@ class CreateTaskForm extends Component {
     this.setState({ modal: !this.state.modal });
   };
   cancelTask = () => {
-    this.setState({ taskText: "", taskDetails: "", due: "" });
+    this.setState({ title: "", details: "", due: "" });
     this.toggleModal();
   };
   render() {
